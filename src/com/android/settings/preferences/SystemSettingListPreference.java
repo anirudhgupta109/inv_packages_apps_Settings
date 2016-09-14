@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2014 The CyanogenMod Project
+ * Copyright (C) 2016 The CyanogenMod project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,53 +17,47 @@
 package com.android.settings.preferences;
 
 import android.content.Context;
-import android.support.v14.preference.SwitchPreference;
 import android.provider.Settings;
+import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
 
-
-public class SystemSettingSwitchPreference extends SwitchPreference {
-
-    public SystemSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
+public class SystemSettingListPreference extends ListPreference {
+    public SystemSettingListPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public SystemSettingSwitchPreference(Context context, AttributeSet attrs) {
+    public SystemSettingListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SystemSettingSwitchPreference(Context context) {
-        super(context, null);
-    }
-
     @Override
-    protected boolean persistBoolean(boolean value) {
+    protected boolean persistString(String value) {
         if (shouldPersist()) {
-            if (value == getPersistedBoolean(!value)) {
+            if (value == getPersistedString(null)) {
                 // It's already there, so the same as persisting
                 return true;
             }
-
-            Settings.System.putInt(getContext().getContentResolver(), getKey(), value ? 1 : 0);
+            Settings.System.putString(getContext().getContentResolver(), getKey(), value);
             return true;
         }
         return false;
     }
 
     @Override
-    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
+    protected String getPersistedString(String defaultReturnValue) {
         if (!shouldPersist()) {
             return defaultReturnValue;
         }
-
-        return Settings.System.getInt(getContext().getContentResolver(),
-                getKey(), defaultReturnValue ? 1 : 0) != 0;
+        String value = Settings.System.getString(getContext().getContentResolver(), getKey());
+        return value == null ? defaultReturnValue : value;
     }
 
     @Override
     protected boolean isPersisted() {
-        // Using getString instead of getInt so we can simply check for null
-        // instead of catching an exception. (All values are stored as strings.)
         return Settings.System.getString(getContext().getContentResolver(), getKey()) != null;
+    }
+
+    public int getIntValue(int defValue) {
+        return getValue() == null ? defValue : Integer.valueOf(getValue());
     }
 }
