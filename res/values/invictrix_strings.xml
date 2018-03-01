@@ -45,5 +45,7 @@
     <string name="volume_steps_7" translatable="false">7</string>
     <string name="volume_steps_5" translatable="false">5</string>
 
+    <!-- Font picker -->
+    <string name="font_picker_title">Font</string>
 </resources>
 
