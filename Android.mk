@@ -48,8 +48,7 @@ LOCAL_JAVA_LIBRARIES := \
 
 LOCAL_STATIC_JAVA_LIBRARIES := \
     jsr305 \
-    settings-logtags \
-    glide
+    settings-logtags
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 

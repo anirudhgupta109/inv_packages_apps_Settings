@@ -15,10 +15,6 @@
 -->
 
 <resources>
-    <declare-styleable name="GlideImageView">
-        <attr name="source" format="reference"/>
-    </declare-styleable>
-
     <declare-styleable name="BatteryHistoryChart">
         <!-- Base text color, typeface, size, and style. -->
         <attr name="android:textAppearance" />
